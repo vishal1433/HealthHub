@@ -1,7 +1,8 @@
-
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios'; // Axios ko import karein
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const PatientReg = () => {
   const [name, setName] = useState('');
@@ -10,36 +11,48 @@ const PatientReg = () => {
   const [address, setAddress] = useState('');
   const [mobileNumber, setMobileNumber] = useState('');
 
-  // handleSignUp function
-  const handleSignUp = () => {
-    // Data ko ek object mein store karein
+  const handleSignUp = async () => {
+    // Field validation
+    if (!name || !email || !password || !address || !mobileNumber) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
+    
+    // Password length validation
+    if (password.length < 8) {
+      toast.error("Password must be at least 8 characters long.");
+      return;
+    }
+
+    // Mobile number length validation
+    if (mobileNumber.length !== 10) {
+      toast.error("Mobile number must be exactly 10 digits.");
+      return;
+    }
+
     const userData = {
       username: name,
       email: email,
       password: password,
-      phone: mobileNumber
+      phone: mobileNumber,
+      address: address
     };
-  
-    // Axios ka upyog karke POST request bhejein
-     axios.post('http://localhost:8000/api/auth/register', userData)
-      .then(response => {
-        console.log(response.data); // Server se aaya hua response console mein print karein
-        // Aur kuch aur actions perform karein
-        setName("");
-        setEmail("");
-        setPassword("");
-        setMobileNumber("");
-        setAddress("");
-        alert("Register Successfull. Please Login");
-        window.location.href = '/login'
-      })
-      .catch(error => {
-        console.error('Error creating account:', error); // Agar koi error aata hai toh use console mein print karein
-        // Aur kuch aur actions perform karein
-      
-      });
-  };
 
+    try {
+      const response = await axios.post('http://localhost:8000/api/auth/register', userData);
+      console.log(response.data);
+      setName("");
+      setEmail("");
+      setPassword("");
+      setMobileNumber("");
+      setAddress("");
+      toast.success("Register Successful. Please Login.");
+      window.location.href = '/login';
+    } catch (error) {
+      console.error('Error creating account:', error);
+      toast.error('Error creating account. Please try again.');
+    }
+  };
 
   return (
     <section>
@@ -57,7 +70,7 @@ const PatientReg = () => {
                 Login
               </Link>
             </p>
-            <form action="#" method="POST" className="mt-8">
+            <form action="#" method="POST" className="mt-8" >
               <div className="space-y-5">
                 <div>
                   <label htmlFor="name" className="text-base font-medium text-gray-900">
@@ -104,7 +117,6 @@ const PatientReg = () => {
                     />
                   </div>
                 </div>
-                {/* Additional fields  */}
                 <div>
                   <label htmlFor="address" className="text-base font-medium text-gray-900">
                     Address
@@ -122,14 +134,15 @@ const PatientReg = () => {
                 </div>
                 <div>
                   <label htmlFor="mobileNumber" className="text-base font-medium text-gray-900">
-                    MobileNumber
+                    Mobile Number
                   </label>
                   <div className="mt-2">
                     <input
                       className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                       type="text"
-                      placeholder="MobileNumber"
+                      placeholder="Mobile Number"
                       id="mobileNumber"
+                      max={10}
                       value={mobileNumber}
                       onChange={(e) => setMobileNumber(e.target.value)}
                     />
@@ -161,24 +174,6 @@ const PatientReg = () => {
                 </div>
               </div>
             </form>
-            <div className="mt-3 space-y-3">
-              <button
-                type="button"
-                className="relative inline-flex w-full items-center justify-center rounded-md border border-gray-400 bg-white px-3.5 py-2.5 font-semibold text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-black focus:bg-gray-100 focus:text-black focus:outline-none"
-              >
-                <span className="mr-2 inline-block">
-                  <svg
-                    className="h-6 w-6 text-rose-500"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                  >
-                    <path d="M20.283 10.356h-8.327v3.451h4.792c-.446 2.193-2.313 3.453-4.792 3.453a5.27 5.27 0 0 1-5.279-5.28 5.27 5.27 0 0 1 5.279-5.279c1.259 0 2.397.447 3.29 1.178l2.6-2.599c-1.584-1.381-3.615-2.233-5.89-2.233a8.908 8.908 0 0 0-8.934 8.934 8.907 8.907 0 0 0 8.934 8.934c4.467 0 8.529-3.249 8.529-8.934 0-.528-.081-1.097-.202-1.625z"></path>
-                  </svg>
-                </span>
-                Sign up with Google
-              </button>
-            </div>
           </div>
         </div>
         <div className="h-full w-full">
@@ -189,6 +184,7 @@ const PatientReg = () => {
           />
         </div>
       </div>
+      <ToastContainer />
     </section>
   );
 };

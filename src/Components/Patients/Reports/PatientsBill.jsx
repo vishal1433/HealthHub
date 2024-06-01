@@ -1,128 +1,100 @@
 import React, { useState } from 'react';
-import PatientDashboard from '../Dashboard/PatientDashboard';
 
 const PatientsBill = () => {
-  const initialBills = [
-    { id: 1, description: 'Consultation Fee', amount: 50 },
-    { id: 2, description: 'Lab Test', amount: 75 },
-    { id: 3, description: 'Medication', amount: 30 },
-  ];
+  const [bills, setBills] = useState([
+    {
+      id: 1,
+      doctorName: 'Dr. John Doe',
+      date: '2024-03-15',
+      services: [
+        { name: 'Consultation', cost: 50 },
+        { name: 'Blood Test', cost: 100 },
+      ],
+      totalAmount: 150,
+    },
+    {
+      id: 2,
+      doctorName: 'Dr. Jane Smith',
+      date: '2024-04-15',
+      services: [
+        { name: 'Consultation', cost: 60 },
+        { name: 'Blood Test', cost: 110 },
+        { name: 'X-Ray', cost: 160 },
+      ],
+      totalAmount: 330,
+    },
+    {
+      id: 3,
+      doctorName: 'Dr. Sarah Adams',
+      date: '2024-05-15',
+      services: [
+        { name: 'Consultation', cost: 70 },
+        { name: 'Blood Test', cost: 120 },
+        { name: 'MRI Scan', cost: 250 },
+      ],
+      totalAmount: 440,
+    },
+  ]);
 
-  const [bills, setBills] = useState(initialBills);
-  const [newBill, setNewBill] = useState({ description: '', amount: 0 });
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedBill, setSelectedBill] = useState(null);
 
-  const handleDelete = (id) => {
-    const updatedBills = bills.filter((bill) => bill.id !== id);
-    setBills(updatedBills);
-  };
-
-  const handleAddBill = () => {
-    setBills([...bills, { ...newBill, id: bills.length + 1 }]);
-    setModalOpen(false);
-    setNewBill({ description: '', amount: 0 });
-  };
-
-  const handleModalClose = () => {
-    setModalOpen(false);
-    setNewBill({ description: '', amount: 0 });
+  const handleViewBill = (id) => {
+    // Find the selected bill from the bills array
+    const selected = bills.find((bill) => bill.id === id);
+    setSelectedBill(selected);
   };
 
   return (
-    <div>
-      <div>
-        <PatientDashboard/>
-      </div>
-    <div className="container mx-auto px-4 py-4 mt-2">
-      <h1 className="text-3xl font-bold mb-6">Billing</h1>
-
-      <div className="mb-4">
-        <button
-          onClick={() => setModalOpen(true)}
-          className="bg-green-500 text-white px-4 py-2 rounded"
-        >
-          Add Bill
-        </button>
-      </div>
-
-      {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center">
-          <div className="absolute inset-0 bg-gray-800 opacity-50"></div>
-          <div className="bg-white p-6 rounded shadow-lg">
-            <h2 className="text-2xl font-semibold mb-4">Add New Bill</h2>
-            <form>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2">Description:</label>
-                <input
-                  type="text"
-                  value={newBill.description}
-                  onChange={(e) => setNewBill({ ...newBill, description: e.target.value })}
-                  className="border rounded w-full py-2 px-3"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2">Amount:</label>
-                <input
-                  type="number"
-                  value={newBill.amount}
-                  onChange={(e) => setNewBill({ ...newBill, amount: parseInt(e.target.value, 10) || 0 })}
-                  className="border rounded w-full py-2 px-3"
-                />
-              </div>
-              <div className="flex justify-end">
-                <button
-                  type="button"
-                  onClick={handleModalClose}
-                  className="bg-gray-500 text-white px-4 py-2 rounded mr-2"
-                >
-                  Close
-                </button>
-                <button
-                  type="button"
-                  onClick={handleAddBill}
-                  className="bg-blue-500 text-white px-4 py-2 rounded"
-                >
-                  Add
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      <table className="w-full table-auto">
+    <div className="container mx-auto mt-5">
+      <h1 className="text-2xl font-bold mb-5">Bill Details</h1>
+      <table className="w-full border-collapse border border-gray-300">
         <thead>
           <tr className="bg-gray-200">
-            <th className="px-4 py-2">Description</th>
-            <th className="px-4 py-2">Amount</th>
-            <th className="px-4 py-2">Actions</th>
+            <th className="border border-gray-300 px-4 py-2">#</th>
+            <th className="border border-gray-300 px-4 py-2">Doctor Name</th>
+            <th className="border border-gray-300 px-4 py-2">Date</th>
+            <th className="border border-gray-300 px-4 py-2">Total Amount</th>
+            <th className="border border-gray-300 px-4 py-2">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {bills.map((bill) => (
+          {bills.map((bill, index) => (
             <tr key={bill.id}>
-              <td className="border px-4 py-2">{bill.description}</td>
-              <td className="border px-4 py-2">{bill.amount}</td>
-              <td className="border px-4 py-2">
+              <td className="border border-gray-300 px-4 py-2">{index + 1}</td>
+              <td className="border border-gray-300 px-4 py-2">{bill.doctorName}</td>
+              <td className="border border-gray-300 px-4 py-2">{bill.date}</td>
+              <td className="border border-gray-300 px-4 py-2">${bill.totalAmount}</td>
+              <td className="border border-gray-300 px-4 py-2">
                 <button
-                  onClick={() => handleDelete(bill.id)}
-                  className="bg-red-500 text-white px-2 py-1 rounded"
+                  onClick={() => handleViewBill(bill.id)}
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md"
                 >
-                  Delete
+                  View
                 </button>
               </td>
             </tr>
           ))}
-          {bills.length === 0 && (
-            <tr>
-              <td className="border px-4 py-2" colSpan="3">
-                <p className="text-center">No bills to display</p>
-              </td>
-            </tr>
-          )}
         </tbody>
       </table>
-    </div>
+      {selectedBill && (
+        <div className="mt-5">
+          <h2 className="text-xl font-bold mb-3">Selected Bill Details</h2>
+          <p>
+            <span className="font-semibold">Doctor Name:</span> {selectedBill.doctorName}
+          </p>
+          <p>
+            <span className="font-semibold">Date:</span> {selectedBill.date}
+          </p>
+          <ul>
+            {selectedBill.services.map((service, index) => (
+              <li key={index}>{service.name} - ${service.cost}</li>
+            ))}
+          </ul>
+          <p>
+            <span className="font-semibold">Total Amount:</span> ${selectedBill.totalAmount}
+          </p>
+        </div>
+      )}
     </div>
   );
 };

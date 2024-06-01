@@ -1,52 +1,42 @@
-import React from 'react';
-import PatientDashboard from '../Dashboard/PatientDashboard';
-
-const patientMedicalRecords = [
-  {
-    id: 1,
-    date: '2022-01-01',
-    diagnosis: 'Common Cold',
-    prescription: 'Antibiotics, Rest',
-    doctor: 'Dr. John Doe',
-  },
-  {
-    id: 2,
-    date: '2022-02-15',
-    diagnosis: 'Influenza',
-    prescription: 'Tamiflu, Bed Rest',
-    doctor: 'Dr. Jane Smith',
-  },
-];
+import React, { useState, useEffect } from 'react';
 
 const PatientReports = () => {
+  const [prescriptions, setPrescriptions] = useState([]);
+
+  useEffect(() => {
+    // Simulating fetching prescriptions for the patient from the API
+    const dummyPrescriptions = [
+      {
+        doctor: 'Dr. John Doe',
+        medicines: ['Medicine A', 'Medicine B'],
+        date: '2024-05-10',
+      },
+      {
+        doctor: 'Dr. Jane Smith',
+        medicines: ['Medicine C', 'Medicine D'],
+        date: '2024-05-08',
+      },
+    ];
+    setPrescriptions(dummyPrescriptions);
+  }, []);
+
   return (
-    <div>
-       <div>
-        <PatientDashboard/>
-       </div>
-      <div className='mt-10 p-10'>
-      <h2 className="text-2xl font-bold mb-4">Medical Records</h2>
-      <table className="min-w-full bg-white border border-gray-300">
-        <thead>
-          <tr>
-            <th className="border border-gray-300 py-2 px-4">Date</th>
-            <th className="border border-gray-300 py-2 px-4">Diagnosis</th>
-            <th className="border border-gray-300 py-2 px-4">Prescription</th>
-            <th className="border border-gray-300 py-2 px-4">Doctor</th>
-          </tr>
-        </thead>
-        <tbody>
-          {patientMedicalRecords.map((record) => (
-            <tr key={record.id}>
-              <td className="border border-gray-300 py-2 px-4">{record.date}</td>
-              <td className="border border-gray-300 py-2 px-4">{record.diagnosis}</td>
-              <td className="border border-gray-300 py-2 px-4">{record.prescription}</td>
-              <td className="border border-gray-300 py-2 px-4">{record.doctor}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <div className="container mx-auto mt-5">
+      <h1 className="text-2xl font-bold mb-5">Prescriptions</h1>
+      <ul className="space-y-4">
+        {prescriptions.map((prescription, index) => (
+          <li key={index} className="px-3 py-2 border border-gray-300 rounded-md">
+            <h2 className="text-lg font-semibold mb-1">{prescription.doctor}</h2>
+            <p className="mb-2">Medicines:</p>
+            <ul className="list-disc ml-6 mb-2">
+              {prescription.medicines.map((medicine, medIndex) => (
+                <li key={medIndex}>{medicine}</li>
+              ))}
+            </ul>
+            <p>Date: {prescription.date}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

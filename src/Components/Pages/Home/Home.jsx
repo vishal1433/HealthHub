@@ -37,7 +37,8 @@ export default function Home() {
       <p className="text-green-500 mt-4 text-center text-sm lg:text-base whitespace-nowrap">Free</p>
       <p className="text-black text-center text-sm lg:text-base whitespace-nowrap">Ambulance</p>
     </div>
-    <div className="flex flex-col items-center ml-8 ">
+    <div className="mb-6 mr-4 flex
+    flex-col items-center ml-8">
       <img src="https://i.ibb.co/N22zVkN/docto.png" alt="Call Icon" className="w-20 h-20 rounded-full bg-white p-2 shadow-md mt-2" />
       <p className="text-blue-500 mt-4 text-center text-sm lg:text-base whitespace-nowrap">Qualified</p>
       <p className="text-black text-center text-sm lg:text-base whitespace-nowrap">Doctor</p>

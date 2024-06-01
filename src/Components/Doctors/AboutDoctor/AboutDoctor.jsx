@@ -8,22 +8,25 @@ function AboutDoctor() {
       name: 'Dr. Jane Smith',
       specialization: 'Pediatrician',
       experience: '8 years',
-      imageUrl: 'https://i.ibb.co/3p9WJtG/Dr-Jane-Smith.jpg', 
+      imageUrl: 'https://i.ibb.co/VDXgJGR/f-doc1-1.png', 
     },
-    {
-      id: 2,
-      name: 'Dr. Jane Smith',
-      specialization: 'Pediatrician',
-      experience: '8 years',
-      imageUrl: 'https://i.ibb.co/3p9WJtG/Dr-Jane-Smith.jpg', 
-    },
-    {
-      id: 3,
-      name: 'Dr. Jane Smith',
-      specialization: 'Pediatrician',
-      experience: '8 years',
-      imageUrl: 'https://i.ibb.co/3p9WJtG/Dr-Jane-Smith.jpg', 
-    },
+    
+      {
+        id: 2,
+        name: 'Dr. John Doe',
+        specialization: 'Orthopedic Surgeon',
+        experience: '15 years',
+        imageUrl: 'https://i.ibb.co/MhjF8rX/m-doc1-1.png', 
+      },
+      {
+        id: 3,
+        name: 'Dr. Emily Johnson',
+        specialization: 'Cardiologist',
+        experience: '12 years',
+        imageUrl: 'https://i.ibb.co/JpPWGRH/m-doc2-1.png', 
+      },
+    
+    
   ];
 
   return (

@@ -1,6 +1,7 @@
 const express = require ("express");
 const router =  express.Router();
-const {home,register,login} = require('../controllers/auth-controller')
+const {home,register,login, createAppointment,getAllAppointments,
+     getAppointmentById,deleteAppointment,contactForm} = require('../controllers/auth-controller')
 const signupSchema = require('../validators/auth-validators')
 const validate = require("../middlewares/validate-middleware")
 // const router = require('./router/auth-router');
@@ -17,9 +18,14 @@ const validate = require("../middlewares/validate-middleware")
      router.route("/register").post(validate(signupSchema),register);
      // yaha register pe phle check kar rha hai  sb perfect he ya nahi uske bad jake registraion logic pe jayega
      //after validation models pe jayega wo wala schema me
+
      router.route("/login").post(login);
-
-
+//    router.route("/signout").post(signout);
+     router.route("/appointments").post(createAppointment);
+     router.route("/appointments").get(getAllAppointments);
+     router.route("/appointments/:id").get(getAppointmentById);
+     router.route("/appointments/:id").delete(deleteAppointment);
+     router.route("/contact").post(contactForm);
 
      module.exports = router;
      

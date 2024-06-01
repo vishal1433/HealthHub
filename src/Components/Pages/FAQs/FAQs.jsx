@@ -147,7 +147,7 @@ const faqs = [
 const FAQs = () => {
   return (
     <div className='px-5 py-4 '>
-      <h1 className='text-2xl text-blue-400 text-center font-bold text-slate-500 hover:text-pink-500 mb-4  offset-6 underline decoration-4 '>FAQs</h1>
+      <h1 className='text-2xl text-blue-400 text-center font-bold hover:text-pink-500 mb-4  offset-6 underline decoration-4 '>FAQs</h1>
       <div className="bg-gray-100 p-6 rounded-lg">
       <div className="space-y-4">
         {faqs.map((faq, index) => (

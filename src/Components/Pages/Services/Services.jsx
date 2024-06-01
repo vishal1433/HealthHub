@@ -19,7 +19,7 @@ const servicesData = [
       description: 'Caring for the health and well-being of children.',
       imageSrc: 'https://i.ibb.co/Hgq3Pds/Pediatrics.jpg', 
     },
-    // Add more services as needed
+   
   ];
 
 export default function Services() {
